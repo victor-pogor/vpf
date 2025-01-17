@@ -5,16 +5,25 @@ services:
       dockerfile: .devcontainer/Dockerfile
     volumes:
       - .:/workspace:cached
+    networks:
+      - shared-network
     command: sleep infinity
 
   postgres:
     image: timescale/timescaledb:latest-pg12
-    env_file:
-      - docker-compose.env
+    environment:
+      - POSTGRES_DB=vpfinance
+      - POSTGRES_USER=vpf
+      - POSTGRES_PASSWORD=*_Not_a_safe_password_*
     ports:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    networks:
+      - shared-network
 
 volumes:
   postgres-data:
+
+networks:
+  shared-network:
