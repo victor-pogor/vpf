@@ -1,0 +1,258 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Victor Pogor
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+                  remarks: "Primary key"
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+                  remarks: "User's name"
+              - column:
+                  name: email
+                  type: VARCHAR(100)
+                  constraints:
+                    unique: true
+                  remarks: "User's email address"
+              - column:
+                  name: password_hash
+                  type: VARCHAR(255)
+                  remarks: "Hashed password"
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  remarks: "Record creation timestamp"
+        # - createTable:
+        #     tableName: accounts
+        #     columns:
+        #       - column:
+        #           name: id
+        #           type: SERIAL
+        #           constraints:
+        #             primaryKey: true
+        #           remarks: "Primary key"
+        #       - column:
+        #           name: user_id
+        #           type: INT
+        #           constraints:
+        #             references: users(id)
+        #             onDelete: RESTRICT
+        #           remarks: "Reference to the user"
+        #       - column:
+        #           name: name
+        #           type: VARCHAR(100)
+        #           remarks: "Account name"
+        #       - column:
+        #           name: type
+        #           type: VARCHAR(50)
+        #           remarks: "Account type (e.g., 'bank', 'credit_card', 'investment')"
+        #       - column:
+        #           name: currency
+        #           type: VARCHAR(10)
+        #           remarks: "Currency type (e.g., 'USD', 'EUR')"
+        #       - column:
+        #           name: balance
+        #           type: DECIMAL(18, 2)
+        #           defaultValueNumeric: 0.0
+        #           remarks: "Account balance"
+        #       - column:
+        #           name: created_at
+        #           type: TIMESTAMP
+        #           defaultValueComputed: CURRENT_TIMESTAMP
+        #           remarks: "Record creation timestamp"
+        # - createTable:
+        #     tableName: transactions
+        #     columns:
+        #       - column:
+        #           name: id
+        #           type: SERIAL
+        #           constraints:
+        #             primaryKey: true
+        #           remarks: "Primary key"
+        #       - column:
+        #           name: user_id
+        #           type: INT
+        #           constraints:
+        #             references: users(id)
+        #             onDelete: RESTRICT
+        #           remarks: "Reference to the user"
+        #       - column:
+        #           name: account_id
+        #           type: INT
+        #           constraints:
+        #             references: accounts(id)
+        #             onDelete: RESTRICT
+        #           remarks: "Reference to the account"
+        #       - column:
+        #           name: date
+        #           type: TIMESTAMP
+        #           remarks: "Transaction date"
+        #       - column:
+        #           name: description
+        #           type: TEXT
+        #           remarks: "Transaction description"
+        #       - column:
+        #           name: category_id
+        #           type: INT
+        #           constraints:
+        #             references: categories(id)
+        #             onDelete: SET NULL
+        #           remarks: "Reference to the category"
+        #       - column:
+        #           name: amount
+        #           type: DECIMAL(18, 2)
+        #           remarks: "Transaction amount (positive for income, negative for expenses)"
+        #       - column:
+        #           name: type
+        #           type: VARCHAR(50)
+        #           remarks: "Transaction type (e.g., 'expense', 'income', 'transfer')"
+        #       - column:
+        #           name: created_at
+        #           type: TIMESTAMP
+        #           defaultValueComputed: CURRENT_TIMESTAMP
+        #           remarks: "Record creation timestamp"
+        # - createTable:
+        #     tableName: categories
+        #     columns:
+        #       - column:
+        #           name: id
+        #           type: SERIAL
+        #           constraints:
+        #             primaryKey: true
+        #           remarks: "Primary key"
+        #       - column:
+        #           name: user_id
+        #           type: INT
+        #           constraints:
+        #             references: users(id)
+        #             onDelete: RESTRICT
+        #           remarks: "Reference to the user"
+        #       - column:
+        #           name: name
+        #           type: VARCHAR(100)
+        #           remarks: "Category name"
+        #       - column:
+        #           name: type
+        #           type: VARCHAR(50)
+        #           remarks: "Category type (e.g., 'expense', 'income')"
+        #       - column:
+        #           name: parent_id
+        #           type: INT
+        #           constraints:
+        #             references: categories(id)
+        #             onDelete: SET NULL
+        #           remarks: "Reference to the parent category (for nested categories)"
+        #       - column:
+        #           name: created_at
+        #           type: TIMESTAMP
+        #           defaultValueComputed: CURRENT_TIMESTAMP
+        #           remarks: "Record creation timestamp"
+        # - createTable:
+        #     tableName: budgets
+        #     columns:
+        #       - column:
+        #           name: id
+        #           type: SERIAL
+        #           constraints:
+        #             primaryKey: true
+        #           remarks: "Primary key"
+        #       - column:
+        #           name: user_id
+        #           type: INT
+        #           constraints:
+        #             references: users(id)
+        #             onDelete: RESTRICT
+        #           remarks: "Reference to the user"
+        #       - column:
+        #           name: category_id
+        #           type: INT
+        #           constraints:
+        #             references: categories(id)
+        #             onDelete: RESTRICT
+        #           remarks: "Reference to the category"
+        #       - column:
+        #           name: start_date
+        #           type: DATE
+        #           remarks: "Budget start date"
+        #       - column:
+        #           name: end_date
+        #           type: DATE
+        #           remarks: "Budget end date"
+        #       - column:
+        #           name: limit_amount
+        #           type: DECIMAL(18, 2)
+        #           remarks: "Budget limit amount"
+        #       - column:
+        #           name: created_at
+        #           type: TIMESTAMP
+        #           defaultValueComputed: CURRENT_TIMESTAMP
+        #           remarks: "Record creation timestamp"
+        # - createTable:
+        #     tableName: goals
+        #     columns:
+        #       - column:
+        #           name: id
+        #           type: SERIAL
+        #           constraints:
+        #             primaryKey: true
+        #           remarks: "Primary key"
+        #       - column:
+        #           name: user_id
+        #           type: INT
+        #           constraints:
+        #             references: users(id)
+        #             onDelete: RESTRICT
+        #           remarks: "Reference to the user"
+        #       - column:
+        #           name: name
+        #           type: VARCHAR(100)
+        #           remarks: "Goal name"
+        #       - column:
+        #           name: target_amount
+        #           type: DECIMAL(18, 2)
+        #           remarks: "Target amount for the goal"
+        #       - column:
+        #           name: current_amount
+        #           type: DECIMAL(18, 2)
+        #           defaultValueNumeric: 0.0
+        #           remarks: "Current amount saved towards the goal"
+        #       - column:
+        #           name: due_date
+        #           type: DATE
+        #           remarks: "Goal due date"
+        #       - column:
+        #           name: created_at
+        #           type: TIMESTAMP
+        #           defaultValueComputed: CURRENT_TIMESTAMP
+        #           remarks: "Record creation timestamp"
+        # - createTable:
+        #     tableName: timeranges
+        #     columns:
+        #       - column:
+        #           name: id
+        #           type: SERIAL
+        #           constraints:
+        #             primaryKey: true
+        #           remarks: "Primary key"
+        #       - column:
+        #           name: start_date
+        #           type: DATE
+        #           remarks: "Start date of the range"
+        #       - column:
+        #           name: end_date
+        #           type: DATE
+        #           remarks: "End date of the range"
+        #       - column:
+        #           name: created_at
+        #           type: TIMESTAMP
+        #           defaultValueComputed: CURRENT_TIMESTAMP
+        #           remarks: "Record creation timestamp"
