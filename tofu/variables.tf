@@ -1,23 +1,25 @@
-variable "postgres_user" {
-  description = "The username for the PostgreSQL database"
-  type        = string
-  default     = "vpf"
+variable "kubeconfig" {
+  description = "The Kubernetes configuration"
+  type = object({
+    config_path     = string
+    default_context = string
+  })
 }
 
-variable "postgres_password" {
-  description = "The password for the PostgreSQL database"
-  type        = string
-  default     = "*_Not_a_safe_password_*"
+variable "apisix_dashboard" {
+  description = "The Apisix dashboard configuration"
+  type = object({
+    host = string
+    username = string
+    password = string
+  })
 }
 
-variable "postgres_db" {
-  description = "The name of the PostgreSQL database"
-  type        = string
-  default     = "vpfinance"
-}
-
-variable "postgres_port" {
-  description = "The port for the PostgreSQL database"
-  type        = number
-  default     = 5432
+variable "cert_manager" {
+  description = "The Cert Manager configuration"
+  type = object({
+    cluster_issuers = map(object({
+      name = string
+    }))
+  })
 }

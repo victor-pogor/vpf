@@ -1,0 +1,18 @@
+config:
+  authentication:
+    users:
+      - username: ${username}
+        password: ${password}
+ingress:
+  enabled: true
+  hosts:
+    - host: ${host}
+      paths:
+        - /
+  annotations:
+    cert-manager.io/cluster-issuer: ${selfsigned_name}
+    kubernetes.io/tls-acme: "true"
+  tls:
+    - secretName: apisix-dashboard-tls
+      hosts:
+        - ${host}
