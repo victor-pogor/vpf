@@ -12,6 +12,9 @@ resource "kubernetes_deployment" "postgresql" {
   metadata {
     name      = var.vpf_postgresql_deployment_name
     namespace = kubernetes_namespace.vpf.metadata[0].name
+    labels = {
+      app = var.vpf_postgresql_deployment_name
+    }
   }
 
   spec {
@@ -68,6 +71,55 @@ resource "kubernetes_deployment" "postgresql" {
             }
             initial_delay_seconds = 30
             period_seconds        = 10
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_service" "postgresql" {
+  metadata {
+    name      = var.vpf_postgresql_service_name
+    namespace = kubernetes_namespace.vpf.metadata[0].name
+  }
+
+  spec {
+    selector = {
+      app = var.vpf_postgresql_deployment_template_name
+    }
+
+    port {
+      port        = var.postgres_port
+      target_port = var.postgres_port
+    }
+
+    type = "ClusterIP"
+  }
+}
+
+resource "kubernetes_ingress_v1" "postgresql" {
+  metadata {
+    name      = var.vpf_postgresql_ingress_name
+    namespace = kubernetes_namespace.vpf.metadata[0].name
+    annotations = {
+      "kubernetes.io/ingress.class" = "contour"
+    }
+  }
+
+  spec {
+    rule {
+      http {
+        path {
+          path = "/db"
+          path_type = "Prefix"
+          backend {
+            service {
+              name = kubernetes_service.postgresql.metadata[0].name
+              port {
+                number = var.postgres_port
+              }
+            }
           }
         }
       }

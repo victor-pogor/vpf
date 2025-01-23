@@ -4,6 +4,12 @@ variable "vpf_namespace" {
   default     = "vpf-namespace"
 }
 
+variable "vpf_postgresql_service_name" {
+  description = "The name of the PostgreSQL service"
+  type        = string
+  default     = "vpf-postgresql-service"
+}
+
 variable "vpf_postgresql_deployment_name" {
   description = "The name of the PostgreSQL deployment"
   type        = string
@@ -14,4 +20,10 @@ variable "vpf_postgresql_deployment_template_name" {
   description = "The name of the PostgreSQL deployment template"
   type        = string
   default     = "vpf-postgresql-deploy-template"
+}
+
+variable "vpf_postgresql_ingress_name" {
+  description = "The name of the PostgreSQL ingress"
+  type        = string
+  default     = "vpf-postgresql-ingress"
 }
