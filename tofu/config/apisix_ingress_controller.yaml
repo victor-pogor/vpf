@@ -1,0 +1,3 @@
+config:
+  apisix:
+    serviceNamespace: ${apisix_service_namespace}

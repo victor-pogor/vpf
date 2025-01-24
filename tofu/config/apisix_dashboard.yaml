@@ -1,4 +1,8 @@
 config:
+  conf:
+    etcd:
+      endpoints:
+        - apisix-etcd.${apisix_service_namespace}:2379
   authentication:
     users:
       - username: ${username}
@@ -10,6 +14,7 @@ ingress:
       paths:
         - /
   annotations:
+    # kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: ${selfsigned_name}
     kubernetes.io/tls-acme: "true"
   tls:
